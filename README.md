@@ -4,10 +4,10 @@
    
    composer install
    
-2. If not already present, update the following variables in your .env file:
+2. Update the following variables in your .env file:
 
-SECRET_ID=8a9472be-0de3-4431-a46b-27aeb1d2609d
-   SECRET_KEY=1f0f764a5deeeef7fd582c8286fdca214e2bad127d52fe06eb1323e9f6cf8e637a54741acb1c2e7a25693e8e6445ee840327dc7d0b0a76d120e5d27bf3c64e88
+SECRET_ID=XXXXXX
+SECRET_KEY=XXXXX
    
 Currently, I have generated these keys from your account. If you want to use another account then follow these steps: https://tinyurl.com/ynwedt3f
 
@@ -16,8 +16,7 @@ Currently, I have generated these keys from your account. If you want to use ano
 
 REDIRECT_URL=http://127.0.0.1:8000/
 
-Note: It will not work with a local environment.
-
+Note: It will not work in a local environment.
 
 4. Set `SANDBOX_MODE` to 1 to enable sandbox mode. To disable sandbox mode, replace 1 with 0.
 
