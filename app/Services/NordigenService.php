@@ -39,17 +39,20 @@ class NordigenService
     {
         $accountArray = $this->getListOfAccounts($requisitionId);
         $accountData = [];
-
+        $requisitionData = $this->client->requisition->getRequisition($requisitionId);
+        $institution_id = $requisitionData["institution_id"];
         foreach($accountArray as $id) {
             $account = $this->client->account($id);
             $accountData[] = [
                 "metaData"     => $account->getAccountMetaData(),
                 "details"      => $account->getAccountDetails(),
                 "balances"     => $account->getAccountBalances(),
-                "transactions" => $account->getAccountTransactions()
+                "transactions" => $account->getAccountTransactions(),
+                'bankData' => $this->client->institution->getInstitution($institution_id)
             ];
         }
         return $accountData;
     }
+    
 
 }

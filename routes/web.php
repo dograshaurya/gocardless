@@ -16,8 +16,7 @@ use App\Services\NordigenService;
 |
 */
 
-Route::get('/test', [HomeController::class, 'index']);
-Route::get('/nord', [HomeController::class, 'nordigen']);
+//Route::get('/test', [HomeController::class, 'index']);
 
 Route::get('/', function (NordigenService $nordigen) {
     $country = "LV";
@@ -27,8 +26,11 @@ Route::get('/', function (NordigenService $nordigen) {
 
 Route::get('/agreements/{id}', function (NordigenService $nordigen) {
     $id = request()->route()->parameter('id');
-    $redirectUrl = 'http://127.0.0.1:8000/results';
-    $data = $nordigen->getSessionData($redirectUrl, 'SANDBOXFINANCE_SFIN0000');
+    $redirectUrl = env('REDIRECT_URL').'results';
+    if(env('SANBOX_MODE') == 1){
+        $id= 'SANDBOXFINANCE_SFIN0000';
+    }
+    $data = $nordigen->getSessionData($redirectUrl, $id);
     session(['requisitionId' => $data["requisition_id"]]);
     return redirect()->away($data["link"]);
 });
@@ -39,8 +41,5 @@ Route::get('/results', function (NordigenService $nordigen) {
     if(!$requisitionId) throw new Exception('Requisition id not found.');
 
     $data = $nordigen->getAccountData($requisitionId);
-    return response()->json($data, 200, [], JSON_PRETTY_PRINT)
-        ->withHeaders([
-            'Accept'=> 'application/json'
-        ]);
+    return view('account_details', compact('data'));
 });
